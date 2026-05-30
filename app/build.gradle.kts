@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    id("com.gradleup.shadow") version "9.3.1"
 }
 
 repositories {
@@ -21,6 +22,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    implementation("io.github.bfur64:tetrue-terminal:2.2.1")
+    implementation("io.github.bfur64:menu-manager:0.7.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

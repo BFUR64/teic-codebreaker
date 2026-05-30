@@ -3,12 +3,50 @@
  */
 package org.example;
 
+import io.github.bfur64.menu.MenuManager;
+import io.github.bfur64.menu.item.ActionItem;
+import io.github.bfur64.menu.item.LineBreak;
+import io.github.bfur64.menu.item.StaticText;
+import io.github.bfur64.terminal.Terminal;
+import io.github.bfur64.terminal.interfaces.TerminalBackend;
+import org.jspecify.annotations.NullMarked;
+
+import java.io.IOException;
+import java.util.List;
+
+@NullMarked
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+    TerminalBackend terminal;
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        try (TerminalBackend terminal = Terminal.auto()) {
+            terminal.start();
+            App app = new App(terminal);
+            app.start();
+        }
+        catch (IOException ignore) {}
+    }
+
+    public App(TerminalBackend terminal) {
+        this.terminal = terminal;
+    }
+
+    private void start() {
+        MenuManager menu = new MenuManager(terminal, List.of(
+            new LineBreak(),
+            new StaticText("<< TEIC CODE BREAKER v0.1.0 >>"),
+            new LineBreak(),
+            new StaticText("-- Main --"),
+            new ActionItem("[ Encrypt Message ]", () -> {}),
+            new ActionItem("[ Decrypt Message ]", () -> {}),
+            new LineBreak(),
+            new StaticText("-- Extras --"),
+            new ActionItem("[ Sharing ]", () -> {}),
+            new ActionItem("[ Generate New Password ]", () -> {}),
+            new ActionItem("[ Change Index Length ]", () -> {}), // TODO Replace with InputItem
+            new LineBreak(),
+            new ActionItem("[ Exit ]", true)
+        ));
+        menu.start();
     }
 }
